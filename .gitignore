@@ -8,6 +8,12 @@
 /PRD.md
 /plans/
 
+# AI agent tool config/skill directories — local tooling only, never shipped
+/.agents/
+/.claude/
+/.cursor/
+/.devin/
+
 # Source asset — buildathon brief screenshot, nested duplicate-named folder
 /AI Revenue Recovery/
 # --------------------------------------------------------------------------
