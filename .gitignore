@@ -1,8 +1,16 @@
+# --- AI agent / planning docs -------------------------------------------
+# Not part of the shipped repo — kept local for Antigravity (and other
+# agent tooling) to read. README.md is the only project doc that stays
+# tracked/public.
+/AGENTS.md
+/CLAUDE.md
+/DESIGN.md
+/PRD.md
+/plans/
+
 # Source asset — buildathon brief screenshot, nested duplicate-named folder
 /AI Revenue Recovery/
-
-# Local planning docs — not part of the shipped repo, kept local for Antigravity to execute against
-/plans/
+# --------------------------------------------------------------------------
 
 # Dependencies
 /node_modules
