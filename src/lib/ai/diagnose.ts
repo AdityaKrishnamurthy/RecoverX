@@ -14,7 +14,10 @@ export const DiagnosisOutputSchema = z.object({
   ]).describe("Best recovery intervention from the allowed action menu"),
   suggestedDelaySeconds: z.number().describe("Recommended delay in seconds before executing the intervention"),
   reasoning: z.string().describe("Forensic justification for the chosen action"),
-  customerOutreachMessage: z.string().optional().describe("Polished, context-aware notification copy if contacting the customer"),
+  // Nullable rather than optional: some providers (e.g. Groq) enforce strict
+  // JSON schemas where every property in `properties` must also appear in
+  // `required`, which rejects `.optional()` fields outright.
+  customerOutreachMessage: z.string().nullable().describe("Polished, context-aware notification copy if contacting the customer, or null if not applicable"),
 });
 
 export type DiagnosisOutput = z.infer<typeof DiagnosisOutputSchema>;
@@ -43,7 +46,7 @@ export function generateDeterministicDiagnosis(context: CaseDiagnosisContext): D
         recommendedAction: "RETRY_PAYMENT",
         suggestedDelaySeconds: 300,
         reasoning: "Transient gateway degradation has cleared; smart immediate retry has a >88% probability of capture.",
-        customerOutreachMessage: undefined,
+        customerOutreachMessage: null,
       };
     }
     if (err.includes("expired")) {
@@ -63,7 +66,7 @@ export function generateDeterministicDiagnosis(context: CaseDiagnosisContext): D
         recommendedAction: "RETRY_PAYMENT",
         suggestedDelaySeconds: 43200, // 12 hours
         reasoning: "Soft decline; scheduled retry timed after business banking settlement window maximizes recovery.",
-        customerOutreachMessage: undefined,
+        customerOutreachMessage: null,
       };
     }
     return {
@@ -72,7 +75,7 @@ export function generateDeterministicDiagnosis(context: CaseDiagnosisContext): D
       recommendedAction: "RETRY_PAYMENT",
       suggestedDelaySeconds: 14400, // 4 hours
       reasoning: "Issuer security velocity cool-down required before secondary retry attempt.",
-      customerOutreachMessage: undefined,
+      customerOutreachMessage: null,
     };
   }
 
@@ -126,7 +129,7 @@ export function generateDeterministicDiagnosis(context: CaseDiagnosisContext): D
       recommendedAction: "RETRY_PAYMENT",
       suggestedDelaySeconds: 86400, // 24 hours
       reasoning: "Standard subscription dunning retry schedule applied (attempt 2 of 3).",
-      customerOutreachMessage: undefined,
+      customerOutreachMessage: null,
     };
   }
 
