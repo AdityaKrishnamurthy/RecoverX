@@ -37,7 +37,7 @@ export function KpiStrip({ data, isLoading }: KpiStripProps) {
             </div>
           </div>
           <div className="mt-3 flex items-baseline gap-2">
-            <div className="text-2xl font-bold font-mono tracking-tight tabular-nums text-foreground">
+            <div className="text-3xl font-extrabold font-mono tracking-tight tabular-nums text-foreground">
               {currencySymbol}{atRisk.toLocaleString("en-US", { minimumFractionDigits: 0, maximumFractionDigits: 0 })}
             </div>
             <span className="text-[11px] text-amber-600 font-medium">Under Monitoring</span>
@@ -58,7 +58,7 @@ export function KpiStrip({ data, isLoading }: KpiStripProps) {
             </div>
           </div>
           <div className="mt-3 flex items-baseline gap-2">
-            <div className="text-2xl font-bold font-mono tracking-tight tabular-nums text-emerald-600">
+            <div className="text-3xl font-extrabold font-mono tracking-tight tabular-nums text-emerald-600">
               {currencySymbol}{recovered.toLocaleString("en-US", { minimumFractionDigits: 0, maximumFractionDigits: 0 })}
             </div>
             <span className="text-[11px] text-emerald-600 font-medium flex items-center">
@@ -82,7 +82,7 @@ export function KpiStrip({ data, isLoading }: KpiStripProps) {
             </div>
           </div>
           <div className="mt-3 flex items-baseline gap-2">
-            <div className="text-2xl font-bold font-mono tracking-tight tabular-nums text-foreground">
+            <div className="text-3xl font-extrabold font-mono tracking-tight tabular-nums text-foreground">
               {rate.toFixed(1)}%
             </div>
             <span className="text-[11px] text-muted-foreground">Overall ROI</span>
@@ -103,7 +103,7 @@ export function KpiStrip({ data, isLoading }: KpiStripProps) {
             </div>
           </div>
           <div className="mt-3 flex items-baseline gap-2">
-            <div className="text-2xl font-bold font-mono tracking-tight tabular-nums text-foreground">
+            <div className="text-3xl font-extrabold font-mono tracking-tight tabular-nums text-foreground">
               {activeCount}
             </div>
             <span className="text-[11px] text-muted-foreground">Bounded Executions</span>

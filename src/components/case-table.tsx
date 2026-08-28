@@ -110,14 +110,14 @@ export function CaseTable({ initialCases }: CaseTableProps) {
             placeholder="Search cases, customers, reasons..."
             value={search}
             onChange={(e) => setSearch(e.target.value)}
-            className="pl-9 h-9 text-xs bg-background"
+            className="pl-9 h-10 text-sm bg-background"
           />
         </div>
 
         <div className="flex flex-wrap items-center gap-2.5 w-full sm:w-auto">
           {/* Type Filter */}
           <Select value={typeFilter} onValueChange={(val) => val && setTypeFilter(val)}>
-            <SelectTrigger className="h-9 text-xs w-44 bg-background">
+            <SelectTrigger className="h-10 text-sm w-44 bg-background">
               <SelectValue placeholder="All Workflows" />
             </SelectTrigger>
             <SelectContent>
@@ -131,7 +131,7 @@ export function CaseTable({ initialCases }: CaseTableProps) {
 
           {/* Status Filter */}
           <Select value={statusFilter} onValueChange={(val) => val && setStatusFilter(val)}>
-            <SelectTrigger className="h-9 text-xs w-36 bg-background">
+            <SelectTrigger className="h-10 text-sm w-36 bg-background">
               <SelectValue placeholder="All Statuses" />
             </SelectTrigger>
             <SelectContent>
@@ -152,11 +152,11 @@ export function CaseTable({ initialCases }: CaseTableProps) {
         <Table>
           <TableHeader className="bg-muted/40">
             <TableRow className="hover:bg-transparent">
-              <TableHead className="w-32 text-xs font-semibold">Case ID</TableHead>
-              <TableHead className="w-44 text-xs font-semibold">Workflow</TableHead>
-              <TableHead className="text-xs font-semibold">Customer</TableHead>
-              <TableHead 
-                className="w-32 text-xs font-semibold text-right cursor-pointer select-none hover:text-foreground"
+              <TableHead className="w-32 h-11 text-xs font-bold uppercase tracking-wide text-muted-foreground">Case ID</TableHead>
+              <TableHead className="w-44 h-11 text-xs font-bold uppercase tracking-wide text-muted-foreground">Workflow</TableHead>
+              <TableHead className="h-11 text-xs font-bold uppercase tracking-wide text-muted-foreground">Customer</TableHead>
+              <TableHead
+                className="w-32 h-11 text-xs font-bold uppercase tracking-wide text-muted-foreground text-right cursor-pointer select-none hover:text-foreground"
                 onClick={() => toggleSort("amount")}
               >
                 <div className="flex items-center justify-end gap-1">
@@ -164,8 +164,8 @@ export function CaseTable({ initialCases }: CaseTableProps) {
                   <ArrowUpDown className="size-3" />
                 </div>
               </TableHead>
-              <TableHead 
-                className="w-32 text-xs font-semibold text-right cursor-pointer select-none hover:text-foreground"
+              <TableHead
+                className="w-32 h-11 text-xs font-bold uppercase tracking-wide text-muted-foreground text-right cursor-pointer select-none hover:text-foreground"
                 onClick={() => toggleSort("riskScore")}
               >
                 <div className="flex items-center justify-end gap-1">
@@ -173,14 +173,14 @@ export function CaseTable({ initialCases }: CaseTableProps) {
                   <ArrowUpDown className="size-3" />
                 </div>
               </TableHead>
-              <TableHead className="w-36 text-xs font-semibold">Status</TableHead>
-              <TableHead className="w-28 text-xs font-semibold text-right">Action</TableHead>
+              <TableHead className="w-36 h-11 text-xs font-bold uppercase tracking-wide text-muted-foreground">Status</TableHead>
+              <TableHead className="w-28 h-11 text-xs font-bold uppercase tracking-wide text-muted-foreground text-right">Action</TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
             {filteredCases.length === 0 ? (
               <TableRow>
-                <TableCell colSpan={7} className="h-32 text-center text-muted-foreground text-xs">
+                <TableCell colSpan={7} className="h-32 text-center text-muted-foreground text-sm">
                   No cases found matching the active filters.
                 </TableCell>
               </TableRow>
@@ -191,35 +191,35 @@ export function CaseTable({ initialCases }: CaseTableProps) {
 
                 return (
                   <TableRow key={c.id} className="group hover:bg-muted/30 transition-colors">
-                    <TableCell className="font-mono text-xs text-foreground font-semibold">
+                    <TableCell className="py-3.5 font-mono text-sm text-foreground font-semibold">
                       #{c.id.slice(0, 8)}
                     </TableCell>
 
-                    <TableCell>
+                    <TableCell className="py-3.5">
                       <WorkflowTypeBadge type={c.type} />
                     </TableCell>
 
-                    <TableCell>
+                    <TableCell className="py-3.5">
                       <div>
-                        <div className="text-xs font-medium text-foreground">
+                        <div className="text-sm font-semibold text-foreground">
                           {c.customer.name}
                         </div>
-                        <div className="text-[11px] text-muted-foreground truncate max-w-[200px]">
+                        <div className="text-xs text-muted-foreground truncate max-w-[200px]">
                           {c.customer.email}
                         </div>
                       </div>
                     </TableCell>
 
-                    <TableCell className="text-right font-mono font-bold text-xs tabular-nums text-foreground">
+                    <TableCell className="py-3.5 text-right font-mono font-bold text-sm tabular-nums text-foreground">
                       {currencySym}{c.amount.toLocaleString()}
                       {c.recoveredAmount && (
-                        <div className="text-[10px] text-emerald-600 font-normal">
+                        <div className="text-xs text-emerald-600 font-medium">
                           +{currencySym}{c.recoveredAmount.toLocaleString()} rec.
                         </div>
                       )}
                     </TableCell>
 
-                    <TableCell className="text-right">
+                    <TableCell className="py-3.5 text-right">
                       <div className="flex items-center justify-end gap-1.5">
                         <div className="w-12 bg-muted rounded-full h-1.5 overflow-hidden">
                           <div
@@ -230,17 +230,17 @@ export function CaseTable({ initialCases }: CaseTableProps) {
                             style={{ width: `${riskPct}%` }}
                           />
                         </div>
-                        <span className="font-mono text-xs tabular-nums text-muted-foreground">
+                        <span className="font-mono text-sm font-semibold tabular-nums text-muted-foreground">
                           {riskPct}%
                         </span>
                       </div>
                     </TableCell>
 
-                    <TableCell>
+                    <TableCell className="py-3.5">
                       <StatusBadge status={c.status} />
                     </TableCell>
 
-                    <TableCell className="text-right">
+                    <TableCell className="py-3.5 text-right">
                       <Link href={`/queue/${c.id}`}>
                         <Button
                           variant="ghost"
