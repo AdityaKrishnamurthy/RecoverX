@@ -82,34 +82,14 @@ npm run dev
 ```
 Open [http://localhost:3000](http://localhost:3000) to access the interactive FinOps dashboard!
 
-See **`PROJECT-TEST.md`** (local only, not in this repo listing) for a plain-language walkthrough of what the project does and a manual test checklist.
-
 ---
 
-## 🎬 4-Minute Demo Walkthrough Script
+## 🧩 Challenges & Technical Obstacles
 
-### Workflow 1: Payment Degradation Retry
-1. Navigate to `/queue`. Filter by **Payment Retries**.
-2. Notice cases diagnosed with `network_timeout` vs `insufficient_funds`.
-3. Open Case Detail: Inspect how the agent applied a 300s jittered backoff for transient acquirer timeouts and recovered $480.00.
-
-### Workflow 2: Checkout Drop-off Recovery
-1. Filter by **Checkout Drop-offs**.
-2. Open a case abandoned at `shipping_calculation`.
-3. Inspect how the agent diagnosed price friction and dispatched a 10% coupon code (`RECOVER10`), converting the abandoned cart into net recovered revenue.
-
-### Workflow 3: Subscription Dunning & Card Update
-1. Filter by **Subscription Failures**.
-2. Cases with `card_expired` trigger a non-disruptive card update link (`REQUEST_CARD_UPDATE`) without spamming payment gateways with repeat hard declines.
-
-### Workflow 4: B2B Receivables & Promise-to-Pay
-1. Filter by **B2B Receivables**.
-2. Inspect aging buckets (15 days vs 65 days).
-3. 30-day overdue cases capture a **Promise-to-Pay** commitment date, while 60+ day high-value cases execute a compliant **Human Ops Escalation**.
-
-### Live Ingestion & Replay
-- Click **"Simulate Signal"** in the top header to fire a live simulated event into `/api/events` and watch it appear in the queue within seconds!
-- Click **"Export JSON / CSV"** in `/audit` to download the entire forensic ledger.
+- **LLM provider reliability**: the initial single-provider setup turned out to be non-functional in practice; we rebuilt it as a live-tested fallback chain (Groq → Mistral → NVIDIA → Gemini → deterministic rules) after real API calls surfaced several already-EOL'd model IDs no documentation flagged.
+- **Groq's strict JSON-schema mode** rejected Zod `.optional()` fields on structured-output calls — required switching those schema fields to `.nullable()`.
+- **Nested modal focus traps**: shadcn/Base UI's `Select` is modal by default, which fought the enclosing `Dialog`'s own focus trap (e.g. the "Simulate Signal" form) and broke the dropdown entirely; fixed by defaulting `Select` to `modal={false}`.
+- **Simplified persistence**: originally scoped against Postgres/Neon, moved to local SQLite so the demo is fully self-contained with no external database dependency.
 
 ---
 
