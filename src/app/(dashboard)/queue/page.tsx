@@ -5,6 +5,8 @@ import { CaseTable } from "@/components/case-table";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Sparkles, Layers } from "lucide-react";
 
+import { DemoControls } from "@/components/demo-controls";
+
 export const dynamic = "force-dynamic";
 
 export default async function QueuePage() {
@@ -36,7 +38,9 @@ export default async function QueuePage() {
       <Header
         title="Revenue Recovery Queue"
         description="Autonomous detection, triage, and bounded multi-channel recovery workflows."
-      />
+      >
+        <DemoControls />
+      </Header>
 
       <main className="p-8 space-y-6 flex-1 max-w-7xl w-full mx-auto">
         <KpiStrip data={kpis} />
