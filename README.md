@@ -30,9 +30,9 @@ $$\text{Detect} \longrightarrow \text{Diagnose} \longrightarrow \text{Decide} \l
 
 ## 🛠️ Tech Stack
 
-- **Frontend**: Next.js 16 (App Router, TypeScript, Server Components), Tailwind CSS v4, shadcn/ui.
+- **Frontend**: Next.js 16 (App Router, TypeScript, Server Components), Tailwind CSS v4, shadcn/ui, `next-themes` (dark/light).
 - **Backend & APIs**: Next.js Route Handlers, Zod schema validation.
-- **Database & ORM**: PostgreSQL / SQLite with Prisma ORM.
+- **Database & ORM**: SQLite (local file at `prisma/dev.db`) with Prisma ORM.
 - **Durable Orchestration**: Inngest durable functions (`step.run`, `step.sleep`, event triggers).
 - **Multi-LLM Abstraction**: Vercel AI SDK unifying **xAI Grok**, **Mistral**, and **Google Gemini** with intelligent fallback & safety heuristics.
 
@@ -48,21 +48,21 @@ npm install
 ```
 
 ### 2. Configure Environment Variables
-Copy `.env.local.example` to `.env.local` (or `.env`):
+Copy `.env.local.example` to `.env.local`:
 ```bash
 cp .env.local.example .env.local
 ```
 
-Example `.env.local`:
+The database is local SQLite, so `DATABASE_URL` doesn't need editing:
 ```env
 DATABASE_URL="file:./dev.db"
 
-# LLM Providers (Server-side only)
+# LLM Providers (Server-side only) — needed for real diagnosis/intervention calls
 XAI_API_KEY="your-xai-key"
 MISTRAL_API_KEY="your-mistral-key"
 GOOGLE_GENERATIVE_AI_API_KEY="your-gemini-key"
 
-# Inngest Workflow
+# Inngest Workflow — "test"/"local-test" work fine for `inngest dev`
 INNGEST_EVENT_KEY="local-test"
 INNGEST_SIGNING_KEY="local-test"
 ```
@@ -78,6 +78,8 @@ npm run seed
 npm run dev
 ```
 Open [http://localhost:3000](http://localhost:3000) to access the interactive FinOps dashboard!
+
+See **`PROJECT-TEST.md`** (local only, not in this repo listing) for a plain-language walkthrough of what the project does and a manual test checklist.
 
 ---
 
