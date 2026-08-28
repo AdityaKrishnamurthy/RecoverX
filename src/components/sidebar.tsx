@@ -14,34 +14,36 @@ import {
 import { cn } from "@/lib/utils";
 import { Badge } from "@/components/ui/badge";
 
-const navigation = [
+export const navigation = [
   { name: "Recovery Queue", href: "/queue", icon: Layers, badge: "Live" },
   { name: "Analytics & ROI", href: "/analytics", icon: BarChart3 },
   { name: "Audit Trail", href: "/audit", icon: FileText },
 ];
 
-export function Sidebar() {
+export function SidebarBrand() {
+  return (
+    <div className="h-16 flex items-center gap-3 px-6 border-b border-border/50 shrink-0">
+      <div className="size-9 rounded-lg bg-emerald-500/10 border border-emerald-500/20 text-emerald-600 flex items-center justify-center font-bold shadow-xs">
+        <Sparkles className="size-5" />
+      </div>
+      <div>
+        <div className="text-sm font-bold tracking-tight text-foreground flex items-center gap-1.5">
+          RecoveryAgent
+          <Badge variant="outline" className="text-[10px] px-1.5 py-0 font-medium bg-emerald-500/10 text-emerald-600 border-emerald-500/20">
+            v1.0
+          </Badge>
+        </div>
+        <p className="text-xs text-muted-foreground">Autonomous FinOps</p>
+      </div>
+    </div>
+  );
+}
+
+export function SidebarNavContent({ onNavigate }: { onNavigate?: () => void }) {
   const pathname = usePathname();
 
   return (
-    <aside className="w-64 border-r border-border/60 bg-card/60 backdrop-blur-md flex flex-col h-screen sticky top-0 shrink-0 select-none">
-      {/* Brand Header */}
-      <div className="h-16 flex items-center gap-3 px-6 border-b border-border/50">
-        <div className="size-9 rounded-lg bg-emerald-500/10 border border-emerald-500/20 text-emerald-600 flex items-center justify-center font-bold shadow-xs">
-          <Sparkles className="size-5" />
-        </div>
-        <div>
-          <div className="text-sm font-semibold tracking-tight text-foreground flex items-center gap-1.5">
-            RecoveryAgent
-            <Badge variant="outline" className="text-[10px] px-1.5 py-0 font-medium bg-emerald-500/10 text-emerald-600 border-emerald-500/20">
-              v1.0
-            </Badge>
-          </div>
-          <p className="text-xs text-muted-foreground">Autonomous FinOps</p>
-        </div>
-      </div>
-
-      {/* Nav Links */}
+    <>
       <nav className="flex-1 px-3 py-4 space-y-1 overflow-y-auto">
         <div className="px-3 py-1.5 text-[11px] font-semibold uppercase tracking-wider text-muted-foreground/70">
           Core Workflows
@@ -52,8 +54,9 @@ export function Sidebar() {
             <Link
               key={item.name}
               href={item.href}
+              onClick={onNavigate}
               className={cn(
-                "flex items-center justify-between px-3 py-2.5 rounded-lg text-sm font-medium transition-all duration-150 group",
+                "flex items-center justify-between px-3 py-2.5 rounded-lg text-sm font-semibold transition-all duration-150 group",
                 isActive
                   ? "bg-primary text-primary-foreground shadow-xs"
                   : "text-muted-foreground hover:bg-muted/70 hover:text-foreground"
@@ -80,7 +83,7 @@ export function Sidebar() {
       </nav>
 
       {/* System Status Footer */}
-      <div className="p-4 border-t border-border/50 bg-muted/20">
+      <div className="p-4 border-t border-border/50 bg-muted/20 shrink-0">
         <div className="rounded-lg p-3 border border-border/60 bg-background/80 space-y-2">
           <div className="flex items-center justify-between">
             <span className="text-xs font-semibold text-foreground flex items-center gap-1.5">
@@ -96,6 +99,15 @@ export function Sidebar() {
           </p>
         </div>
       </div>
+    </>
+  );
+}
+
+export function Sidebar() {
+  return (
+    <aside className="hidden lg:flex w-64 border-r border-border/60 bg-card/60 backdrop-blur-md flex-col h-screen sticky top-0 shrink-0 select-none">
+      <SidebarBrand />
+      <SidebarNavContent />
     </aside>
   );
 }
