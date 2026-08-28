@@ -187,10 +187,17 @@ export const executeRecoveryWorkflow = inngest.createFunction(
       return intervention;
     });
 
+    // Step 4: Execute Intervention via Action Simulator
+    const executionOutcome = await step.run("execute-intervention", async () => {
+      const { executeIntervention } = await import("@/lib/actions");
+      return await executeIntervention(interventionDecision.id);
+    });
+
     return {
       success: true,
       caseId,
       intervention: interventionDecision,
+      outcome: executionOutcome,
     };
   }
 );
