@@ -3,44 +3,8 @@ generator client {
 }
 
 datasource db {
-  provider = "postgresql"
+  provider = "sqlite"
   url      = env("DATABASE_URL")
-}
-
-enum CaseType {
-  PAYMENT_RETRY
-  CHECKOUT_ABANDONMENT
-  SUBSCRIPTION_FAILURE
-  RECEIVABLE_OVERDUE
-}
-
-enum CaseStatus {
-  DETECTED
-  DIAGNOSING
-  INTERVENING
-  RECOVERED
-  ESCALATED
-  STOPPED
-  EXPIRED
-}
-
-enum InterventionType {
-  RETRY_PAYMENT
-  SEND_REMINDER
-  OFFER_INCENTIVE
-  REQUEST_CARD_UPDATE
-  ESCALATE_HUMAN
-}
-
-enum ActorType {
-  AGENT
-  SYSTEM
-}
-
-enum PromiseStatus {
-  PENDING
-  KEPT
-  BROKEN
 }
 
 model Customer {
@@ -56,8 +20,8 @@ model Customer {
 
 model Case {
   id                  String            @id @default(cuid())
-  type                CaseType
-  status              CaseStatus        @default(DETECTED)
+  type                String            // PAYMENT_RETRY | CHECKOUT_ABANDONMENT | SUBSCRIPTION_FAILURE | RECEIVABLE_OVERDUE
+  status              String            @default("DETECTED") // DETECTED | DIAGNOSING | INTERVENING | RECOVERED | ESCALATED | STOPPED | EXPIRED
   amount              Float
   currency            String            @default("USD")
   riskScore           Float             @default(0.5)
@@ -84,51 +48,51 @@ model Event {
   caseId    String
   case      Case     @relation(fields: [caseId], references: [id], onDelete: Cascade)
   type      String
-  payload   Json
+  payload   String   // JSON stringified payload
   createdAt DateTime @default(now())
 
   @@index([caseId])
 }
 
 model Intervention {
-  id           String           @id @default(cuid())
+  id           String    @id @default(cuid())
   caseId       String
-  case         Case             @relation(fields: [caseId], references: [id], onDelete: Cascade)
-  type         InterventionType
+  case         Case      @relation(fields: [caseId], references: [id], onDelete: Cascade)
+  type         String    // RETRY_PAYMENT | SEND_REMINDER | OFFER_INCENTIVE | REQUEST_CARD_UPDATE | ESCALATE_HUMAN
   channel      String?
-  status       String           @default("PENDING")
+  status       String    @default("PENDING")
   scheduledAt  DateTime?
   executedAt   DateTime?
   outcome      String?
   llmProvider  String?
   llmReasoning String?
-  createdAt    DateTime         @default(now())
-  updatedAt    DateTime         @updatedAt
+  createdAt    DateTime  @default(now())
+  updatedAt    DateTime  @updatedAt
 
   @@index([caseId])
   @@index([type])
 }
 
 model AuditLogEntry {
-  id        String    @id @default(cuid())
+  id        String   @id @default(cuid())
   caseId    String
-  case      Case      @relation(fields: [caseId], references: [id], onDelete: Cascade)
-  actor     ActorType @default(SYSTEM)
+  case      Case     @relation(fields: [caseId], references: [id], onDelete: Cascade)
+  actor     String   @default("SYSTEM") // AGENT | SYSTEM
   action    String
-  detail    Json
-  createdAt DateTime  @default(now())
+  detail    String   // JSON stringified detail
+  createdAt DateTime @default(now())
 
   @@index([caseId])
   @@index([createdAt])
 }
 
 model PromiseToPay {
-  id             String        @id @default(cuid())
-  caseId         String        @unique
-  case           Case          @relation(fields: [caseId], references: [id], onDelete: Cascade)
+  id             String   @id @default(cuid())
+  caseId         String   @unique
+  case           Case     @relation(fields: [caseId], references: [id], onDelete: Cascade)
   promisedAmount Float
   promisedDate   DateTime
-  status         PromiseStatus @default(PENDING)
-  createdAt      DateTime      @default(now())
-  updatedAt      DateTime      @updatedAt
+  status         String   @default("PENDING") // PENDING | KEPT | BROKEN
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
 }
