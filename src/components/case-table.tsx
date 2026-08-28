@@ -55,6 +55,24 @@ interface CaseTableProps {
   initialCases: CaseRow[];
 }
 
+const WORKFLOW_FILTER_LABELS: Record<string, string> = {
+  ALL: "All Workflows",
+  PAYMENT_RETRY: "Payment Retries",
+  CHECKOUT_ABANDONMENT: "Checkout Drop-offs",
+  SUBSCRIPTION_FAILURE: "Subscription Failures",
+  RECEIVABLE_OVERDUE: "B2B Receivables",
+};
+
+const STATUS_FILTER_LABELS: Record<string, string> = {
+  ALL: "All Statuses",
+  RECOVERED: "Recovered",
+  INTERVENING: "Intervening",
+  DIAGNOSING: "Diagnosing",
+  ESCALATED: "Escalated",
+  STOPPED: "Stopped",
+  DETECTED: "Detected",
+};
+
 export function CaseTable({ initialCases }: CaseTableProps) {
   const [search, setSearch] = useState("");
   const [typeFilter, setTypeFilter] = useState("ALL");
@@ -118,9 +136,11 @@ export function CaseTable({ initialCases }: CaseTableProps) {
           {/* Type Filter */}
           <Select value={typeFilter} onValueChange={(val) => val && setTypeFilter(val)}>
             <SelectTrigger className="h-10 text-sm w-44 bg-background">
-              <SelectValue placeholder="All Workflows" />
+              <SelectValue>
+                {(val: string) => WORKFLOW_FILTER_LABELS[val] ?? val}
+              </SelectValue>
             </SelectTrigger>
-            <SelectContent>
+            <SelectContent className="w-auto min-w-56">
               <SelectItem value="ALL">All Workflows</SelectItem>
               <SelectItem value="PAYMENT_RETRY">Payment Retries</SelectItem>
               <SelectItem value="CHECKOUT_ABANDONMENT">Checkout Drop-offs</SelectItem>
@@ -132,9 +152,11 @@ export function CaseTable({ initialCases }: CaseTableProps) {
           {/* Status Filter */}
           <Select value={statusFilter} onValueChange={(val) => val && setStatusFilter(val)}>
             <SelectTrigger className="h-10 text-sm w-36 bg-background">
-              <SelectValue placeholder="All Statuses" />
+              <SelectValue>
+                {(val: string) => STATUS_FILTER_LABELS[val] ?? val}
+              </SelectValue>
             </SelectTrigger>
-            <SelectContent>
+            <SelectContent className="w-auto min-w-40">
               <SelectItem value="ALL">All Statuses</SelectItem>
               <SelectItem value="RECOVERED">Recovered</SelectItem>
               <SelectItem value="INTERVENING">Intervening</SelectItem>

@@ -31,6 +31,18 @@ import {
 } from "@/components/ui/select";
 import { Input } from "@/components/ui/input";
 
+const EVENT_TYPE_LABELS: Record<string, string> = {
+  PAYMENT_FAILED: "Payment Retry (Gateway Failure)",
+  CHECKOUT_ABANDONED: "Checkout Drop-off (Friction)",
+  SUBSCRIPTION_CHARGE_FAILED: "Subscription Failed Renewal",
+  INVOICE_OVERDUE: "B2B Invoice Overdue",
+};
+
+const CURRENCY_LABELS: Record<string, string> = {
+  USD: "USD ($)",
+  INR: "INR (₹)",
+};
+
 export function DemoControls() {
   const router = useRouter();
   const [isOpen, setIsOpen] = useState(false);
@@ -160,8 +172,10 @@ export function DemoControls() {
             <div className="space-y-1">
               <label className="font-medium text-foreground">Workflow Event Type</label>
               <Select value={eventType} onValueChange={(val) => val && setEventType(val)}>
-                <SelectTrigger className="h-9 text-xs bg-background">
-                  <SelectValue />
+                <SelectTrigger className="h-9 w-full text-xs bg-background">
+                  <SelectValue>
+                    {(val: string) => EVENT_TYPE_LABELS[val] ?? val}
+                  </SelectValue>
                 </SelectTrigger>
                 <SelectContent>
                   <SelectItem value="PAYMENT_FAILED">Payment Retry (Gateway Failure)</SelectItem>
@@ -186,8 +200,10 @@ export function DemoControls() {
               <div className="space-y-1">
                 <label className="font-medium text-foreground">Currency</label>
                 <Select value={currency} onValueChange={(val) => val && setCurrency(val)}>
-                  <SelectTrigger className="h-9 text-xs bg-background font-mono">
-                    <SelectValue />
+                  <SelectTrigger className="h-9 w-full text-xs bg-background font-mono">
+                    <SelectValue>
+                      {(val: string) => CURRENCY_LABELS[val] ?? val}
+                    </SelectValue>
                   </SelectTrigger>
                   <SelectContent>
                     <SelectItem value="USD">USD ($)</SelectItem>
