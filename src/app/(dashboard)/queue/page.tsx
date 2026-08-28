@@ -1,15 +1,33 @@
+import prisma from "@/lib/prisma";
 import { Header } from "@/components/header";
 import { KpiStrip } from "@/components/kpi-strip";
+import { CaseTable } from "@/components/case-table";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
-import { Sparkles, Filter, RefreshCw } from "lucide-react";
+import { Sparkles, Layers } from "lucide-react";
 
-export default function QueuePage() {
-  const initialKpis = {
-    totalAtRisk: 148500,
-    totalRecovered: 89400,
-    recoveryRate: 60.2,
-    activeCasesCount: 24,
+export const dynamic = "force-dynamic";
+
+export default async function QueuePage() {
+  const cases = await prisma.case.findMany({
+    include: {
+      customer: {
+        select: { name: true, email: true, segment: true },
+      },
+    },
+    orderBy: { createdAt: "desc" },
+  });
+
+  const totalAtRisk = cases.reduce((acc, c) => acc + c.amount, 0);
+  const totalRecovered = cases.reduce((acc, c) => acc + (c.recoveredAmount || 0), 0);
+  const activeCasesCount = cases.filter((c) => c.status === "INTERVENING" || c.status === "DETECTED" || c.status === "DIAGNOSING").length;
+  const recoveredCasesCount = cases.filter((c) => c.status === "RECOVERED").length;
+  const recoveryRate = cases.length > 0 ? (recoveredCasesCount / cases.length) * 100 : 0;
+
+  const kpis = {
+    totalAtRisk,
+    totalRecovered,
+    recoveryRate,
+    activeCasesCount,
     currency: "USD",
   };
 
@@ -18,41 +36,21 @@ export default function QueuePage() {
       <Header
         title="Revenue Recovery Queue"
         description="Autonomous detection, triage, and bounded multi-channel recovery workflows."
-      >
-        <Button variant="outline" size="sm" className="gap-2 text-xs">
-          <Filter className="size-3.5" />
-          Filter Signals
-        </Button>
-        <Button size="sm" className="gap-2 text-xs bg-emerald-600 hover:bg-emerald-500 text-white">
-          <Sparkles className="size-3.5" />
-          Simulate Ingestion
-        </Button>
-      </Header>
+      />
 
-      <main className="p-8 space-y-6 flex-1">
-        <KpiStrip data={initialKpis} />
+      <main className="p-8 space-y-6 flex-1 max-w-7xl w-full mx-auto">
+        <KpiStrip data={kpis} />
 
-        <Card className="border-border/60 shadow-xs">
-          <CardHeader className="p-6 pb-4">
-            <div className="flex items-center justify-between">
-              <div>
-                <CardTitle className="text-base font-semibold">Active At-Risk Cases</CardTitle>
-                <CardDescription className="text-xs">
-                  Real-time pipeline of payment retries, abandoned checkouts, failed subscriptions, and receivables.
-                </CardDescription>
-              </div>
-            </div>
-          </CardHeader>
-          <CardContent className="p-6 pt-0">
-            <div className="h-64 flex flex-col items-center justify-center border border-dashed border-border/80 rounded-lg text-center p-6 text-muted-foreground">
-              <RefreshCw className="size-8 text-muted-foreground/50 mb-3 animate-spin" />
-              <p className="text-sm font-medium text-foreground">Loading Revenue Recovery Pipeline...</p>
-              <p className="text-xs text-muted-foreground mt-1 max-w-sm">
-                Case queue table will be populated by Plan 002 seed data & Plan 007 table components.
-              </p>
-            </div>
-          </CardContent>
-        </Card>
+        <div className="space-y-3">
+          <div className="flex items-center justify-between">
+            <h2 className="text-sm font-semibold tracking-tight text-foreground flex items-center gap-2">
+              <Layers className="size-4 text-primary" />
+              Real-Time Case Pipeline ({cases.length} total)
+            </h2>
+          </div>
+
+          <CaseTable initialCases={cases} />
+        </div>
       </main>
     </div>
   );

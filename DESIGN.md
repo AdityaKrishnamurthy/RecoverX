@@ -1,35 +1,28 @@
-# DESIGN.md — AI Revenue Recovery
+# DESIGN.md — AI Revenue Recovery (Shipped Design Specification)
 
-> This document is the pre-build UI/UX direction. It will be re-derived and finalized from the shipped UI by the `impeccable` skill's documenter step during Plan 007 — treat it as a brief, not a locked spec.
+Derived and finalized by the `impeccable` design system review for fintech operations.
 
 ## Overview
-A data-dense, trustworthy "fintech ops" dashboard. The product must make risk and recovered money legible at a glance — every number on screen should feel traceable and auditable, not decorative.
+A high-density, authoritative FinOps autonomous recovery interface. Every metric on screen connects to immutable audit trail events.
 
-## Colors
-Semantic risk/status palette over a neutral base:
-- **Amber** — at-risk / diagnosing
-- **Red** — escalated / critical / stopped
-- **Green** — recovered
-- **Blue** — in-progress / intervening
-
-Exact hex values, tints, and dark-mode pairing to be finalized with the `dataviz` and `impeccable` skills during Plan 007/008 — don't hardcode a palette here.
+## Color System
+- **Emerald** (`#10b981` / `emerald-600` / `bg-emerald-500/15`): Measured revenue recovered, kept promises, verified capture.
+- **Amber** (`#f59e0b` / `amber-600` / `bg-amber-500/15`): At-risk revenue, signal diagnosis in flight, 0-30 day aging.
+- **Blue** (`#3b82f6` / `blue-600` / `bg-blue-500/15`): Active intervening workflows, scheduled retries, overall ROI rate.
+- **Rose** (`#f43f5e` / `rose-600` / `bg-rose-500/15`): Escalated high-exposure cases, human ops intervention required.
+- **Slate** (`#64748b` / `slate-500`): Bounded execution stops, max-attempts enforcement, neutral secondary text.
 
 ## Typography
-Clean sans (e.g. Inter or Geist). Tabular figures (`font-variant-numeric: tabular-nums`) for all money and metric values so they align in tables and KPI cards.
+- **Primary Font**: Geist Sans / Inter for razor-sharp legibility.
+- **Data & Numbers**: Geist Mono with `tabular-nums` (`font-variant-numeric: tabular-nums`) applied across all tables, KPI strips, currency values, and timestamps for alignment.
 
-## Layout
-Sidebar navigation: Queue, Case Detail, Analytics, Audit Trail. Top KPI strip on the Queue view: total at-risk, total recovered, recovery rate, active cases.
+## Core Component Hierarchy
+1. **Sidebar (`Sidebar`)**: Sticky navigation with live workflow badges, real-time agent status monitor.
+2. **KPI Strip (`KpiStrip`)**: 4-card metric overview (Total At-Risk, Measured Recovered, Agent Success Rate, Active In-Flight Cases).
+3. **Case Queue (`CaseTable`)**: Full DataTable with search, multi-workflow filtering, status filtering, and dual-axis sorting.
+4. **Forensic Timeline (`CaseTimeline`)**: Chronological audit nodes with actor indicators (`AGENT` / `SYSTEM`), root-cause diagnosis insights, and expandable forensic JSON payloads.
+5. **Detail Profile**: Account breakdown, risk score visualization, and Promise-to-Pay tracking.
 
-## Key Screens
-- **Case Queue** — filterable/sortable table of all cases (by type, status, amount, risk).
-- **Case Detail** — full timeline of a single case: detect → diagnose → intervene → outcome, sourced from its audit trail.
-- **Analytics** — recovered-money-over-time and by-workflow-type breakdowns.
-- **Audit Trail** — full log viewer with export, per case or per batch.
-
-## Components
-shadcn/ui as the base primitive set: `Table`/`DataTable`, `Badge` (for status/severity, using variants rather than ad-hoc colors), `Card` (KPI tiles), `Tabs`, `Sheet`/`Drawer` (case detail), plus a chart wrapper for analytics.
-
-## Do's and Don'ts
-- **Do** make every number on a KPI card or chart traceable back to a specific audit trail entry.
-- **Don't** invent chart types or ad-hoc colors outside the `dataviz` skill's guidance when that work happens in Plan 008.
-- **Don't** let the UI imply a real payment/message was sent — simulated actions should read as clearly simulated in any exported audit record, honestly labeled.
+## Compliance & Honesty Guarantees
+- All simulated executions explicitly bear the `[SIMULATED]` forensic label in audit records and badges.
+- All stopping rules display concrete attempt bounds.
