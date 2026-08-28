@@ -34,7 +34,7 @@ $$\text{Detect} \longrightarrow \text{Diagnose} \longrightarrow \text{Decide} \l
 - **Backend & APIs**: Next.js Route Handlers, Zod schema validation.
 - **Database & ORM**: SQLite (local file at `prisma/dev.db`) with Prisma ORM.
 - **Durable Orchestration**: Inngest durable functions (`step.run`, `step.sleep`, event triggers).
-- **Multi-LLM Abstraction**: Vercel AI SDK unifying **xAI Grok**, **Mistral**, and **Google Gemini** with intelligent fallback & safety heuristics.
+- **Multi-LLM Abstraction**: Vercel AI SDK unifying **Groq**, **Mistral**, **NVIDIA**, and **Google Gemini** with a live-tested fallback chain and a deterministic rule-based safety net.
 
 ---
 
@@ -57,14 +57,17 @@ The database is local SQLite, so `DATABASE_URL` doesn't need editing:
 ```env
 DATABASE_URL="file:./dev.db"
 
-# LLM Providers (Server-side only) — needed for real diagnosis/intervention calls
-XAI_API_KEY="your-xai-key"
-MISTRAL_API_KEY="your-mistral-key"
-GOOGLE_GENERATIVE_AI_API_KEY="your-gemini-key"
-
 # Inngest Workflow — "test"/"local-test" work fine for `inngest dev`
 INNGEST_EVENT_KEY="local-test"
 INNGEST_SIGNING_KEY="local-test"
+
+# LLM Providers (Server-side only) — needed for real diagnosis/intervention calls.
+# Tried in this order until one succeeds, falling back to deterministic rules
+# if all are missing/unreachable: Groq -> Mistral -> NVIDIA -> Gemini.
+GROQ_API_KEY="your-groq-key"
+MISTRAL_API_KEY="your-mistral-key"
+NVIDIA_API_KEY="your-nvidia-key"
+GEMINI_API_KEY="your-gemini-key"
 ```
 
 ### 3. Initialize Database & Seed Batch
@@ -111,4 +114,4 @@ See **`PROJECT-TEST.md`** (local only, not in this repo listing) for a plain-lan
 ---
 
 ## 📄 License & Attribution
-Built for the Razorpay Buildathon 2026. Code under MIT License.
+Built for the Razorpay Buildathon 2026. Code under the [MIT License](./LICENSE).
