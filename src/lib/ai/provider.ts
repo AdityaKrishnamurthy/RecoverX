@@ -17,18 +17,27 @@ export function getProviderModel(provider: LLMProviderName): { model: LanguageMo
   switch (provider) {
     case "grok": {
       const apiKey = process.env.XAI_API_KEY || "";
+      if (!apiKey || apiKey.startsWith("xai-placeholder") || apiKey.length < 20) {
+        throw new Error("xAI API key not configured");
+      }
       const xai = createXai({ apiKey });
       const modelName = "grok-2-1212";
       return { model: xai(modelName) as LanguageModel, modelName };
     }
     case "mistral": {
       const apiKey = process.env.MISTRAL_API_KEY || "";
+      if (!apiKey || apiKey === "..." || apiKey.length < 20) {
+        throw new Error("Mistral API key not configured");
+      }
       const mistral = createMistral({ apiKey });
       const modelName = "mistral-large-latest";
       return { model: mistral(modelName) as LanguageModel, modelName };
     }
     case "gemini": {
       const apiKey = process.env.GOOGLE_GENERATIVE_AI_API_KEY || process.env.GEMINI_API_KEY || "";
+      if (!apiKey || apiKey === "..." || !apiKey.startsWith("AIzaSy")) {
+        throw new Error("Google Gemini API key not configured with valid AI Studio key");
+      }
       const google = createGoogleGenerativeAI({ apiKey });
       const modelName = "gemini-1.5-flash";
       return { model: google(modelName) as LanguageModel, modelName };
