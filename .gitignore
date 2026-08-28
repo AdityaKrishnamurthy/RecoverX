@@ -1,0 +1,37 @@
+# Source asset — buildathon brief screenshot, nested duplicate-named folder
+/AI Revenue Recovery/
+
+# Local planning docs — not part of the shipped repo, kept local for Antigravity to execute against
+/plans/
+
+# Dependencies
+/node_modules
+/.pnp
+.pnp.js
+
+# Next.js
+/.next/
+/out/
+/build
+
+# Env files
+.env
+.env*.local
+
+# Vercel
+.vercel
+
+# Misc
+.DS_Store
+*.pem
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+*.log
+
+# TypeScript
+*.tsbuildinfo
+next-env.d.ts
+
+# Prisma
+/prisma/*.db

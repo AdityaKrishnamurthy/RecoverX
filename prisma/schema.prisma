@@ -1,0 +1,134 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum CaseType {
+  PAYMENT_RETRY
+  CHECKOUT_ABANDONMENT
+  SUBSCRIPTION_FAILURE
+  RECEIVABLE_OVERDUE
+}
+
+enum CaseStatus {
+  DETECTED
+  DIAGNOSING
+  INTERVENING
+  RECOVERED
+  ESCALATED
+  STOPPED
+  EXPIRED
+}
+
+enum InterventionType {
+  RETRY_PAYMENT
+  SEND_REMINDER
+  OFFER_INCENTIVE
+  REQUEST_CARD_UPDATE
+  ESCALATE_HUMAN
+}
+
+enum ActorType {
+  AGENT
+  SYSTEM
+}
+
+enum PromiseStatus {
+  PENDING
+  KEPT
+  BROKEN
+}
+
+model Customer {
+  id        String   @id @default(cuid())
+  name      String
+  email     String
+  phone     String?
+  segment   String   @default("STANDARD") // ENTERPRISE, SMB, VIP, STANDARD
+  cases     Case[]
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Case {
+  id                  String            @id @default(cuid())
+  type                CaseType
+  status              CaseStatus        @default(DETECTED)
+  amount              Float
+  currency            String            @default("USD")
+  riskScore           Float             @default(0.5)
+  diagnosis           String?
+  diagnosisConfidence Float?
+  recoveredAmount     Float?
+  recoveredAt         DateTime?
+  customerId          String
+  customer            Customer          @relation(fields: [customerId], references: [id], onDelete: Cascade)
+  events              Event[]
+  interventions       Intervention[]
+  auditLogs           AuditLogEntry[]
+  promiseToPay        PromiseToPay?
+  createdAt           DateTime          @default(now())
+  updatedAt           DateTime          @updatedAt
+
+  @@index([type])
+  @@index([status])
+  @@index([customerId])
+}
+
+model Event {
+  id        String   @id @default(cuid())
+  caseId    String
+  case      Case     @relation(fields: [caseId], references: [id], onDelete: Cascade)
+  type      String
+  payload   Json
+  createdAt DateTime @default(now())
+
+  @@index([caseId])
+}
+
+model Intervention {
+  id           String           @id @default(cuid())
+  caseId       String
+  case         Case             @relation(fields: [caseId], references: [id], onDelete: Cascade)
+  type         InterventionType
+  channel      String?
+  status       String           @default("PENDING")
+  scheduledAt  DateTime?
+  executedAt   DateTime?
+  outcome      String?
+  llmProvider  String?
+  llmReasoning String?
+  createdAt    DateTime         @default(now())
+  updatedAt    DateTime         @updatedAt
+
+  @@index([caseId])
+  @@index([type])
+}
+
+model AuditLogEntry {
+  id        String    @id @default(cuid())
+  caseId    String
+  case      Case      @relation(fields: [caseId], references: [id], onDelete: Cascade)
+  actor     ActorType @default(SYSTEM)
+  action    String
+  detail    Json
+  createdAt DateTime  @default(now())
+
+  @@index([caseId])
+  @@index([createdAt])
+}
+
+model PromiseToPay {
+  id             String        @id @default(cuid())
+  caseId         String        @unique
+  case           Case          @relation(fields: [caseId], references: [id], onDelete: Cascade)
+  promisedAmount Float
+  promisedDate   DateTime
+  status         PromiseStatus @default(PENDING)
+  createdAt      DateTime      @default(now())
+  updatedAt      DateTime      @updatedAt
+}
