@@ -14,7 +14,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "AI Revenue Recovery",
+  title: "RecoverX",
   description:
     "Autonomous agent that detects at-risk revenue and executes bounded, audited recovery workflows.",
 };

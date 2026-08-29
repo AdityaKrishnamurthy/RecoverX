@@ -1,4 +1,4 @@
-# ⚡ AI Revenue Recovery Agent
+# ⚡ RecoverX - Autonomous Payment Recovery Agent
 
 > **Autonomous FinOps Recovery Agent** that detects revenue at risk, determines the optimal intervention using LLM-assisted forensic diagnosis, and executes bounded recovery workflows — across payment retries, abandoned checkouts, failed subscriptions, and overdue B2B receivables. Built for the **Razorpay Buildathon: AI Revenue Recovery Track**.
 
@@ -12,7 +12,7 @@ Revenue loss rarely happens in one clean step:
 3. **Subscription Failures**: Expired cards vs insufficient balances vs revoked auto-debit mandates.
 4. **B2B Receivables Delinquency**: Overdue aging invoices with uncaptured promise-to-pay commitments.
 
-Traditional systems either spam customers blindly or fail to intervene. **AI Revenue Recovery** closes the loop with an autonomous 6-step lifecycle:
+Traditional systems either spam customers blindly or fail to intervene. **RecoverX** closes the loop with an autonomous 6-step lifecycle:
 $$\text{Detect} \longrightarrow \text{Diagnose} \longrightarrow \text{Decide} \longrightarrow \text{Execute} \longrightarrow \text{Recover/Escalate} \longrightarrow \text{Audit}$$
 
 ---
@@ -43,7 +43,7 @@ $$\text{Detect} \longrightarrow \text{Diagnose} \longrightarrow \text{Decide} \l
 ### 1. Clone & Install Dependencies
 ```bash
 git clone <repo-url>
-cd "AI Revenue Recovery"
+cd RecoverX
 npm install
 ```
 
