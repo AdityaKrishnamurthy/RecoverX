@@ -20,9 +20,13 @@ export const navigation = [
   { name: "Audit Trail", href: "/audit", icon: FileText },
 ];
 
-export function SidebarBrand() {
+export function SidebarBrand({ onNavigate }: { onNavigate?: () => void }) {
   return (
-    <div className="h-16 flex items-center gap-3 px-6 border-b border-border/50 shrink-0">
+    <Link
+      href="/queue"
+      onClick={onNavigate}
+      className="h-16 flex items-center gap-3 px-6 border-b border-border/50 shrink-0 transition-colors hover:bg-muted/40"
+    >
       <div className="size-9 rounded-lg bg-emerald-500/10 border border-emerald-500/20 text-emerald-600 flex items-center justify-center font-bold shadow-xs">
         <Sparkles className="size-5" />
       </div>
@@ -35,7 +39,7 @@ export function SidebarBrand() {
         </div>
         <p className="text-xs text-muted-foreground">Autonomous FinOps</p>
       </div>
-    </div>
+    </Link>
   );
 }
 

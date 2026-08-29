@@ -30,7 +30,7 @@ export function MobileNav() {
         <SheetDescription className="sr-only">
           Recovery workflow navigation
         </SheetDescription>
-        <SidebarBrand />
+        <SidebarBrand onNavigate={() => setOpen(false)} />
         <SidebarNavContent onNavigate={() => setOpen(false)} />
       </SheetContent>
     </Sheet>

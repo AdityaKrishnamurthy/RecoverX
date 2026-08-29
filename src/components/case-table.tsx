@@ -267,7 +267,7 @@ export function CaseTable({ initialCases }: CaseTableProps) {
                         <Button
                           variant="ghost"
                           size="sm"
-                          className="h-8 text-xs gap-1 opacity-80 group-hover:opacity-100 group-hover:bg-primary group-hover:text-primary-foreground transition-all"
+                          className="h-8 text-xs gap-1 opacity-80 transition-all group-hover:opacity-100 group-hover:bg-primary group-hover:text-primary-foreground hover:bg-primary hover:text-primary-foreground hover:opacity-100"
                         >
                           Details
                           <ChevronRight className="size-3.5" />

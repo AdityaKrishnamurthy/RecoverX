@@ -71,7 +71,11 @@ function SelectContent({
   sideOffset = 4,
   align = "center",
   alignOffset = 0,
-  alignItemWithTrigger = true,
+  // Defaults to false: `true` uses fixed positioning that overlaps the
+  // trigger like a native <select>, which produced a stray gap/overlap
+  // glitch near the first item. Anchored positioning (same mechanism
+  // DropdownMenu already uses) opens the popup cleanly below the trigger.
+  alignItemWithTrigger = false,
   ...props
 }: SelectPrimitive.Popup.Props &
   Pick<
