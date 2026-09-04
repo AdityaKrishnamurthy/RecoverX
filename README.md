@@ -76,7 +76,13 @@ npx prisma db push
 npm run seed
 ```
 
-### 4. Start Development Server
+### 4. Run Automated Test Suite
+```bash
+npm test
+```
+Runs 12 automated verification checks testing the detection engine, stopping rules, deterministic AI fallback, schema validations, and audit trail exports.
+
+### 5. Start Development Server
 ```bash
 npm run dev
 ```
