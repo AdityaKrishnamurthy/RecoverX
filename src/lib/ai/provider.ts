@@ -45,7 +45,11 @@ export function getProviderModel(provider: LLMProviderName): { model: LanguageMo
       return { model: nvidia(modelName) as LanguageModel, modelName };
     }
     case "gemini": {
-      const apiKey = process.env.GEMINI_API_KEY || "";
+      const apiKey =
+        process.env.GEMINI_API_KEY ||
+        process.env.GOOGLE_GENERATIVE_AI_API_KEY ||
+        process.env.GOOGLE_API_KEY ||
+        "";
       if (!apiKey || apiKey === "..." || apiKey.length < 20) {
         throw new Error("Google Gemini API key not configured");
       }

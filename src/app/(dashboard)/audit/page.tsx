@@ -3,8 +3,7 @@ import { Header } from "@/components/header";
 import { CaseTimeline, AuditLogItem } from "@/components/case-timeline";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { FileText, Download, ShieldCheck, Database, Filter } from "lucide-react";
-import Link from "next/link";
+import { FileText, Download, ShieldCheck, Database } from "lucide-react";
 
 export const dynamic = "force-dynamic";
 

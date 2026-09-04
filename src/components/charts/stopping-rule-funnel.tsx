@@ -1,6 +1,5 @@
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
-import { ShieldCheck, StopCircle, ArrowUpRight, AlertTriangle } from "lucide-react";
-import { cn } from "@/lib/utils";
+import { ShieldCheck } from "lucide-react";
 
 interface FunnelProps {
   totalCases: number;

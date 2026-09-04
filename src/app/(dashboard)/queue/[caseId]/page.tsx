@@ -5,12 +5,8 @@ import {
   ArrowLeft, 
   Sparkles, 
   User, 
-  DollarSign, 
   Calendar, 
-  CheckCircle2, 
-  ShieldAlert, 
-  FileText,
-  Clock
+  FileText
 } from "lucide-react";
 import { Header } from "@/components/header";
 import { Button } from "@/components/ui/button";

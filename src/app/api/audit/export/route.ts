@@ -2,6 +2,8 @@ import { NextRequest, NextResponse } from "next/server";
 import prisma from "@/lib/prisma";
 import { formatAuditLogsAsJSON, formatAuditLogsAsCSV, AuditExportRecord } from "@/lib/export/audit-export";
 
+import { Prisma } from "@prisma/client";
+
 export const dynamic = "force-dynamic";
 
 export async function GET(req: NextRequest) {
@@ -9,7 +11,7 @@ export async function GET(req: NextRequest) {
   const format = searchParams.get("format") || "json";
   const caseId = searchParams.get("caseId");
 
-  const whereClause: any = {};
+  const whereClause: Prisma.AuditLogEntryWhereInput = {};
   if (caseId) {
     whereClause.caseId = caseId;
   }
@@ -27,9 +29,9 @@ export async function GET(req: NextRequest) {
   });
 
   const records: AuditExportRecord[] = logs.map((l) => {
-    let detail: Record<string, any> = {};
+    let detail: Record<string, unknown> = {};
     try {
-      detail = typeof l.detail === "string" ? JSON.parse(l.detail) : l.detail;
+      detail = typeof l.detail === "string" ? JSON.parse(l.detail) : (l.detail as Record<string, unknown>);
     } catch {
       detail = { raw: l.detail };
     }

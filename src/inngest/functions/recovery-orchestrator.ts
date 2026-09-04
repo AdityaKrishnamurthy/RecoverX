@@ -8,11 +8,11 @@ export const executeRecoveryWorkflow = inngest.createFunction(
     name: "Execute Autonomous Recovery Workflow",
     triggers: [{ event: "recovery/case.triggered" }],
   },
-  async ({ event, step }: { event: any; step: any }) => {
+  async ({ event, step }) => {
     const { caseId } = (event.data || {}) as { caseId: string };
 
     // Step 1: Diagnosis & Classification
-    const diagnosisStep = await step.run("diagnose-case", async () => {
+    await step.run("diagnose-case", async () => {
       const existingCase = await prisma.case.findUnique({
         where: { id: caseId },
       });
@@ -65,10 +65,10 @@ export const executeRecoveryWorkflow = inngest.createFunction(
           },
         });
 
-        return { shouldHalt: true, reason: "MAX_ATTEMPTS_REACHED" };
+        return { shouldHalt: true, reason: "MAX_ATTEMPTS_REACHED", attemptCount };
       }
 
-      return { shouldHalt: false, attemptCount };
+      return { shouldHalt: false, reason: null, attemptCount };
     });
 
     if (stoppingRuleCheck.shouldHalt) {

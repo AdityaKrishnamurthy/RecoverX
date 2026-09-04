@@ -2,8 +2,7 @@ import prisma from "@/lib/prisma";
 import { Header } from "@/components/header";
 import { KpiStrip } from "@/components/kpi-strip";
 import { CaseTable } from "@/components/case-table";
-import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
-import { Sparkles, Layers } from "lucide-react";
+import { Layers } from "lucide-react";
 
 import { DemoControls } from "@/components/demo-controls";
 

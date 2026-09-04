@@ -1,6 +1,5 @@
-import { ArrowUpRight, DollarSign, TrendingUp, AlertTriangle, CheckCircle2, ShieldAlert } from "lucide-react";
+import { ArrowUpRight, TrendingUp, AlertTriangle, CheckCircle2, ShieldAlert } from "lucide-react";
 import { Card, CardContent } from "@/components/ui/card";
-import { cn } from "@/lib/utils";
 
 export interface KpiData {
   totalAtRisk: number;
@@ -12,10 +11,9 @@ export interface KpiData {
 
 interface KpiStripProps {
   data?: KpiData;
-  isLoading?: boolean;
 }
 
-export function KpiStrip({ data, isLoading }: KpiStripProps) {
+export function KpiStrip({ data }: KpiStripProps) {
   const currencySymbol = data?.currency === "INR" ? "₹" : "$";
   const atRisk = data?.totalAtRisk ?? 0;
   const recovered = data?.totalRecovered ?? 0;

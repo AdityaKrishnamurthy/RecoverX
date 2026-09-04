@@ -1,6 +1,6 @@
 import { generateObject } from "ai";
 import { z } from "zod";
-import { executeWithFallback, getProviderModel, LLMProviderName, ExecutionResult } from "./provider";
+import { executeWithFallback, LLMProviderName, ExecutionResult } from "./provider";
 
 export const DiagnosisOutputSchema = z.object({
   rootCause: z.string().describe("Clear, concise root cause explanation for the failure or drop-off"),

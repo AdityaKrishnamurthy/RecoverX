@@ -7,7 +7,7 @@ export interface AuditExportRecord {
   actor: string;
   action: string;
   timestamp: string;
-  detail: Record<string, any>;
+  detail: Record<string, unknown>;
 }
 
 export function formatAuditLogsAsJSON(records: AuditExportRecord[]): string {
@@ -30,7 +30,12 @@ export function formatAuditLogsAsCSV(records: AuditExportRecord[]): string {
   const escapeCSV = (val: string) => `"${String(val).replace(/"/g, '""')}"`;
 
   const rows = records.map((r) => {
-    const summary = r.detail.summary || r.detail.rootCause || r.detail.message || r.detail.reason || "";
+    const summary =
+      (typeof r.detail.summary === "string" && r.detail.summary) ||
+      (typeof r.detail.rootCause === "string" && r.detail.rootCause) ||
+      (typeof r.detail.message === "string" && r.detail.message) ||
+      (typeof r.detail.reason === "string" && r.detail.reason) ||
+      "";
     return [
       escapeCSV(r.auditId),
       escapeCSV(r.caseId),

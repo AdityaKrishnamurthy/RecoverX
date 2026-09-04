@@ -4,7 +4,7 @@ import { KpiStrip } from "@/components/kpi-strip";
 import { RecoveryByType, WorkflowMetric } from "@/components/charts/recovery-by-type";
 import { StoppingRuleFunnel } from "@/components/charts/stopping-rule-funnel";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
-import { TrendingUp, Award, ShieldCheck, Zap } from "lucide-react";
+import { Award } from "lucide-react";
 
 export const dynamic = "force-dynamic";
 

@@ -6,12 +6,7 @@ import {
   Sparkles, 
   RefreshCw, 
   Zap, 
-  CreditCard, 
-  ShoppingCart, 
-  Repeat, 
-  FileSpreadsheet,
-  CheckCircle2,
-  AlertCircle
+  CheckCircle2
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
@@ -20,7 +15,6 @@ import {
   DialogDescription,
   DialogHeader,
   DialogTitle,
-  DialogTrigger,
 } from "@/components/ui/dialog";
 import { 
   Select, 
@@ -59,7 +53,7 @@ export function DemoControls() {
     setIsSubmitting(true);
     setResultMessage(null);
 
-    let payload: Record<string, any> = {};
+    let payload: Record<string, unknown> = {};
     if (eventType === "PAYMENT_FAILED") {
       payload = {
         errorCode: "insufficient_funds",
@@ -114,8 +108,8 @@ export function DemoControls() {
       } else {
         setResultMessage(`Error: ${data.error || "Failed to simulate event"}`);
       }
-    } catch (e: any) {
-      setResultMessage(`Error: ${e.message}`);
+    } catch (e: unknown) {
+      setResultMessage(`Error: ${e instanceof Error ? e.message : String(e)}`);
     } finally {
       setIsSubmitting(false);
     }

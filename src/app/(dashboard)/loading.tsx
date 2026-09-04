@@ -1,5 +1,4 @@
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
-import { RefreshCw } from "lucide-react";
 
 export default function DashboardLoading() {
   return (

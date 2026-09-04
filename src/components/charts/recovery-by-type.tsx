@@ -2,7 +2,6 @@
 
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { WorkflowTypeBadge } from "@/components/status-badge";
-import { cn } from "@/lib/utils";
 
 export interface WorkflowMetric {
   type: string;

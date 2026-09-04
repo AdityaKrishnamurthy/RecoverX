@@ -3,12 +3,10 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { 
-  ShieldCheck, 
   Layers, 
   BarChart3, 
   FileText, 
   Sparkles,
-  Zap,
   Activity
 } from "lucide-react";
 import { cn } from "@/lib/utils";

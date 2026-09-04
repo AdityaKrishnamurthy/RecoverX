@@ -7,6 +7,7 @@
     "build": "next build",
     "start": "next start",
     "lint": "eslint",
+    "test": "tsx tests/recovery-engine.test.ts",
     "seed": "tsx prisma/seed.ts",
     "postinstall": "prisma skills sync || exit 0"
   },

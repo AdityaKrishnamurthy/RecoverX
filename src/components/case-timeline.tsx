@@ -9,7 +9,6 @@ import {
   Cpu, 
   Clock, 
   ShieldAlert, 
-  ArrowRight,
   ChevronDown,
   ChevronUp,
   FileCode2
@@ -17,6 +16,20 @@ import {
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
+
+export interface AuditLogDetail {
+  simulated?: boolean;
+  summary?: string;
+  rootCause?: string;
+  confidence?: number;
+  reasoning?: string;
+  provider?: string;
+  modelName?: string;
+  latencyMs?: number;
+  message?: string;
+  raw?: string;
+  [key: string]: unknown;
+}
 
 export interface AuditLogItem {
   id: string;
@@ -96,13 +109,13 @@ export function CaseTimeline({ logs }: CaseTimelineProps) {
 
   return (
     <div className="relative pl-6 space-y-8 before:absolute before:left-[17px] before:top-3 before:bottom-3 before:w-0.5 before:bg-border/70">
-      {sortedLogs.map((log, index) => {
+      {sortedLogs.map((log) => {
         const meta = getActionMeta(log.action);
         const isExpanded = !!expandedLogs[log.id];
 
-        let parsedDetail: Record<string, any> = {};
+        let parsedDetail: AuditLogDetail = {};
         try {
-          parsedDetail = typeof log.detail === "string" ? JSON.parse(log.detail) : log.detail;
+          parsedDetail = typeof log.detail === "string" ? JSON.parse(log.detail) : (log.detail as AuditLogDetail);
         } catch {
           parsedDetail = { raw: log.detail };
         }
